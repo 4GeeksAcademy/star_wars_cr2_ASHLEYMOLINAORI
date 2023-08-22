@@ -256,6 +256,7 @@ def post_favorite_people_delete():
         print(str(error))
         return jsonify(str(error)), 400   
     
+    #Empezamos con el mismo proceso en FavoritesPlanets
 
 @app.route('/favoritesplanets', methods=['GET'])
 def get_favoritesplanets():
@@ -264,6 +265,50 @@ def get_favoritesplanets():
     print("valor de search_serialize ", search_serialize)
     
     return jsonify(search_serialize), 200 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

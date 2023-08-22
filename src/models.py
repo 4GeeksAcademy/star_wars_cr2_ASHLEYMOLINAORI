@@ -62,7 +62,7 @@ class People(db.Model):
     height = db.Column(db.Float, unique=False, nullable=False)
     age = db.Column(db.Integer, unique=False, nullable=False)
     gender = db.Column(db.String(30), unique=False, nullable=True, default="N/A")
-    favorites_people = db.relationship(FavoritePeople, backref = 'people')
+    favorite_people = db.relationship(FavoritePeople, backref = 'people')
 
     def serialize(self):
         return{
