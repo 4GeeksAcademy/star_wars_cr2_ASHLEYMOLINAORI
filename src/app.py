@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, People, FavoritePeople
+from models import db, User, People, Planets, Vehicles, FavoritePeople, FavoritesPlanets, FavoritesVehicles
 #from models import Person
 
 app = Flask(__name__)
@@ -36,6 +36,7 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+
 @app.route('/user', methods=['GET'])
 def handle_hello():
 
@@ -53,6 +54,27 @@ def get_people():
     print("valor de search_serialize ", search_serialize)
     
     return jsonify(search_serialize), 200
+
+
+
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    search = Planets.query.all()    
+    search_serialize = list(map(lambda x: x.serialize(), search)) # search.map((item)=>{item.serialize()})
+    print("valor de search_serialize ", search_serialize)
+    
+    return jsonify(search_serialize), 200
+
+
+@app.route('/vehicles', methods=['GET'])
+def get_vehicles():
+    search = Vehicles.query.all()    
+    search_serialize = list(map(lambda x: x.serialize(), search)) # search.map((item)=>{item.serialize()})
+    print("valor de search_serialize ", search_serialize)
+    
+    return jsonify(search_serialize), 200
+
+
 
 @app.route('/people/<int:id>', methods=['GET'])
 def get_people_id(id):
@@ -123,6 +145,9 @@ def delete_people_id(id):
     except Exception as error:
         print(error)
         return jsonify({"message":str(error)}), 500
+    
+
+
     
 
 @app.route('/favorite-people', methods=['GET'])
@@ -230,6 +255,25 @@ def post_favorite_people_delete():
     except Exception as error:
         print(str(error))
         return jsonify(str(error)), 400   
+    
+
+@app.route('/favoritesplanets', methods=['GET'])
+def get_favoritesplanets():
+    search = FavoritesPlanets.query.all()    
+    search_serialize = list(map(lambda x: x.serialize(), search)) # search.map((item)=>{item.serialize()})
+    print("valor de search_serialize ", search_serialize)
+    
+    return jsonify(search_serialize), 200 
+
+
+
+@app.route('/favoritesvehicles', methods=['GET'])
+def get_favoritesvehicles():
+    search = FavoritesVehicles.query.all()    
+    search_serialize = list(map(lambda x: x.serialize(), search)) # search.map((item)=>{item.serialize()})
+    print("valor de search_serialize ", search_serialize)
+    
+    return jsonify(search_serialize), 200    
 
 
 # this only runs if `$ python src/app.py` is executed
