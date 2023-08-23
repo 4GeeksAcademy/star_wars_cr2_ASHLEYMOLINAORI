@@ -21,7 +21,18 @@ class FavoritesPlanets(db.Model):
    __tablename__ = 'favoritesplanets'
    id = db.Column(db.Integer, primary_key=True)
    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-   planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
+   planets_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
+
+   def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "planet_id": self.planets_id,
+            "email":  User.query.get(self.user_id).serialize()["email"],
+            #revisar
+            # "planets": Planets.query.get(self.name).serialize()["name"]
+        }
+
 
 
 class FavoritesVehicles(db.Model):
@@ -87,6 +98,18 @@ class Planets(db.Model):
     climate = db.Column(db.String(250), nullable = False)
     favorites_planets = db.relationship(FavoritesPlanets, backref = 'planets')  
 
+    def serialize(self):
+        return{
+            "id":self.id,
+            "name": self.name,
+            "population": self.population,
+            "terrain": self.terrain,
+            "climate": self.climate
+                        
+        }
+
+
+
 
 class Vehicles(db.Model):
     __tablename__ = 'vehicles'
@@ -97,15 +120,15 @@ class Vehicles(db.Model):
     cargo_capacity = db.Column(db.String(250), nullable = True)
     favorites_vehicles = db.relationship(FavoritesVehicles, backref='vehicles', lazy=True)
 
-    def serialize(self):
-        return{
-            "id": self.id,
-            "name": self.name,
-            "eye_color":self.eye_color,
-            "hair_color": self.hair_color,
-            "height": self.height,
-            "age": self.age
-        }
+    # def serialize(self):
+    #     return{
+    #         "id": self.id,
+    #         "name": self.name,
+    #         "eye_color":self.eye_color,
+    #         "hair_color": self.hair_color,
+    #         "height": self.height,
+    #         "age": self.age
+    #     }
 
 
 
